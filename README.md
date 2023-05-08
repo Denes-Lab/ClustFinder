@@ -65,8 +65,6 @@ done < "$THRESH2"dist_less.tsv
 
 
 
-
-
 echo >> $LOG
 echo >> $LOG
 echo >> $LOG
@@ -98,8 +96,6 @@ while IFS=$'\t' read genome1 genome2 distance; do
         echo -e "$genome1\t$genome2\t$distance" >> "$2"dist_more.tsv    #If the distance is equal to or greater than the threshold, the genome pair and distance are appended to the "$2"dist_more.tsv
     fi
 done < "$2"dist_less.tsv
-
-
 
 
 
@@ -166,9 +162,6 @@ echo >> $LOG
 
 ####this step is to make the merging easier####
 
-
-#https://stackoverflow.com/questions/56716292/using-awk-to-merge-unique-rows-based-on-column-one and modified by HK to make it tsv
-
 #FS  is any single character as input field separator; a is an array taking the value stored there 
 #each input line uses array "a" to store the first field ($1) of each line under the key of the second field ($2). FS=field separator
 #END indicates that this code block should be executed after all input has been processed; END does a loop to iterate over the keys of the array "a". 
@@ -179,19 +172,10 @@ mkdir backup_original-clusters
 cp CL*.tsv ids-unq-clusters_in_rows.tsv backup_original-clusters/
 
 
-
-#https://stackoverflow.com/questions/5374239/tab-separated-values-in-awk
 ##this is deleting column1 (genomeID) in new file 
 awk 'BEGIN {OFS="\t"}; {print $2,$3}' ids-unq-clusters_in_rows.tsv | sort -k1 >> clusters_formatted_in_rows.tsv
 
-
-
-
-#steps to make merging easier 
-
-
 cp clusters_formatted_in_rows.tsv clusters_formatted_in_rows-backup.tsv
-
 
 
 echo >> $LOG
