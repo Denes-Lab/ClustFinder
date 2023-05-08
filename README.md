@@ -9,7 +9,7 @@ Tool that automates the clustering of isolates based on the genetic distances in
 #distance tsv file = $1
 #distance threshold +1 = $2 
 
-#CL* means cluster: had to shorten it from cluster because Bash has a filename limit of 250 characters 
+#CL* means cluster: short for "cluster" to avoid Bash filename limit of 250 characters 
 
 DATE=$(date +"%F_%H-%M")
 LOG=$DATE.log
