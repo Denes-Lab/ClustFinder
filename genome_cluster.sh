@@ -2,12 +2,12 @@
 
 #Harleen K. Chaggar, Lauren K. Hudson, Thomas G. Gardener
 
-#bash clustering_script.sh dataset.tsv distance
+#usage: bash clustering_script.sh dataset.tsv distance
 
 #distance tsv file = $1
 #distance threshold +1 = $2 
 
-#CL* means cluster: had to shorten it from cluster because Bash has a filename limit of 250 characters 
+#CL=cluster
 
 DATE=$(date +"%F_%H-%M")
 LOG=$DATE.log
@@ -27,7 +27,6 @@ echo "	script name/version:				${0##*/}
 	upper distance threshold:			$THRESH2" >> $LOG
 	
 	
-
 echo >> $LOG
 echo >> $LOG
 echo >> $LOG
@@ -60,8 +59,6 @@ while IFS=$'\t' read genome1 genome2 distance; do
 done < "$THRESH2"dist_less.tsv
 
 #It creates two output files, one containing distances less than the threshold and another containing distances equal to or greater than the threshold.
-
-
 
 
 
@@ -165,8 +162,6 @@ echo >> $LOG
 ####this step is to make the merging easier####
 
 
-#https://stackoverflow.com/questions/56716292/using-awk-to-merge-unique-rows-based-on-column-one and modified by HK to make it tsv
-
 #FS  is any single character as input field separator; a is an array taking the value stored there 
 #each input line uses array "a" to store the first field ($1) of each line under the key of the second field ($2). FS=field separator
 #END indicates that this code block should be executed after all input has been processed; END does a loop to iterate over the keys of the array "a". 
@@ -177,15 +172,8 @@ mkdir backup_original-clusters
 cp CL*.tsv ids-unq-clusters_in_rows.tsv backup_original-clusters/
 
 
-
-#https://stackoverflow.com/questions/5374239/tab-separated-values-in-awk
 ##this is deleting column1 (genomeID) in new file 
 awk 'BEGIN {OFS="\t"}; {print $2,$3}' ids-unq-clusters_in_rows.tsv | sort -k1 >> clusters_formatted_in_rows.tsv
-
-
-
-
-#steps to make merging easier 
 
 
 cp clusters_formatted_in_rows.tsv clusters_formatted_in_rows-backup.tsv
@@ -451,12 +439,9 @@ for c in CL*.tsv; do
 done
 
 
-
-
 end_time=$(date +%s)
 time_elapsed=$((end_time - start_time))
 echo "Time elapsed for awk script: $time_elapsed seconds" >> $LOG   #this calculates the run time for only awk code above 
-
 
 
 #to count number of genomes in CL*.tsv files to see if there has been any update in the number after doing finding missing pairwise comparisons step
@@ -477,7 +462,6 @@ for ids_unq_c in ids-unq-CL*.tsv; do
 	echo -e $ids_unq_c"\t"$no_ids >> stats.tsv
 done
 	
-
 
 
 
