@@ -58,7 +58,7 @@ echo "	script name/version:				        ${0##*/}
 	path to script:						${0}
 	current directory:					$PWD
 	input pairwise distances file:		                $1
-	lower distance threshold:	  	                $2
+	lower distance threshold:	  	                $THRESH"
 	upper distance threshold:			        $THRESH2" >> $LOG
 	
 echo >> $LOG
