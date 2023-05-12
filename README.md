@@ -1,35 +1,50 @@
-###### Description
+# Introduction
 Clustrator is a clustering tool in Bash. It can groups isolates into clusters based on the genomic distances derived from single nucleotide polymorphisms (SNPs), kmers, genes, or alleles. It's intended for use by public health professionals to conduct epidemiological surveillance and identify outbreaks effectively and researchers to retrospectively identify putative epidemiological clusters. It requires no prior knowledge of Bash scripting.
 
-Read more about Clustrator and how we used to cluster isolates based on Single Nucleotide Polymorphisms (SNP) here :
-(Link our publication)
+# Description
+- Clustrator requires two arguments: name of the input file and the distance threshold (t). 
+  - The input is a tab-separated file containing pairwise comparisons with genetic distances, one per line. 
+- Clustrator starts by separating the pairwise comparisons based on the distance according to the provided threshold. 
+- For each pairwise comparison with a distance below the threshold, the script searches for an existing cluster containing either of the two genomes. 
+  - If there is a match, that pairwise comparison is added to the existing cluster. If there is no match, a new cluster is created. Clusters are named by incrementing the cluster number variable. 
+- Next, clustrator finds any clusters that contain overlapping genomes and merges those clusters.
+- Clustrator also checks to make sure that each cluster contains pairwise comparisons for each genome pair. 
+  - Missing pairwise comparisons are found in one of initially created files and added to the appropriate cluster. 
+- The final output includes a tsv of the pairwise comparisons and distances for each cluster, a tsv that lists each genome and what cluster it was assigned to, and a statistics file.
 
-###### Installation
+
+## Read more about Clustrator and how we used to cluster isolates based on Single Nucleotide Polymorphisms (SNP) here :
+(Link to our publication)
+
+# Installation
 To install the Clustrator, simply clone this repository to your local machine:
 
-git clone (link)
-
-##### Utilities for command line in Linux and Mac
-
+``` git clone (link)
+```
 
 
-###### Usage
+# Utilities for command line on Mac
+[Homebrew](https://brew.sh/) can be used to install the GNU versions of core utilities 
+
+
+# Usage
 To use Clustrator, navigate to the directory containing the tool, and run the script with the desired flags:
 
-cd /path to script
-bash clustrator.sh -s <source> -n <min number of -s> pairwise_distance.tsv <SNP>
+```
+cd /path/to/directory
+bash clustrator.sh -s <source> -n <min number of -s> pairwise_distance.tsv <SNP> 
+```
  
 The flags are as follows:
 -s: source of the isolates. It can be anything based on the metadata file
 -n: denotes minimum number of isolates of a particular source 
 
-  
-###### Acknowlegdements
+## Acknowlegements
 Clustrator would not have been without
 
-###### Contributing
+## Contributing
 We welcome contributions! Please create a new branch for your feature or bugfix, then submit a pull request.
 
 
-###### License
+# License
 This is licensed under MIT License- see the LICENSE.md file (https://github.com/Denes-Lab/GenomeCluster/blob/main/LICENSE.md) for details. 
