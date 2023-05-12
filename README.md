@@ -24,7 +24,7 @@ To install the Clustrator, simply clone this repository to your local machine:
 
 
 # Utilities for command line on Mac
-[Homebrew](https://brew.sh/) can be used to install the GNU versions of core utilities 
+[Homebrew](https://brew.sh/) can be used to install the GNU versions of core utilities for Mac
 
 
 # Usage
