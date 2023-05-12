@@ -1,10 +1,8 @@
 #!/bin/bash
+#Harleen K. Chaggar, Lauren K. Hudson, Ryan Kuster, Meg Staton, Katie J. Garman, John Dunn, Thomas G. Denes
 
-
-
-#usage: bash test8_script-source-min-numb.sh -s clinical -n 4 coli_ksnp_core_dist-pair.tsv 6
+#usage: bash clustrator.sh -s <source> -n <minimum number> pairwise_distance.tsv <SNP distance>
 # Default values for flags
-has_t_option=false
 source_option=""
 min_number=""
 
@@ -13,16 +11,11 @@ while getopts "hts:n:" opt; do
   case $opt in
     h)
       # Display help message and exit
-      echo "Usage: $0 [-h] [-t] [-s <source>] [-n <min_number>]"
+      echo "Usage: $0 [-h] [-s <source>] [-n <min_number>]"
       echo "  -h: Show help message"
-      echo "  -t: Set t option"
       echo "  -s: Set source option"
       echo "  -n: Set minimum number"
       exit 0
-      ;;
-    t)
-      # Set the t option
-      has_t_option=true
       ;;
     s)
       # Set the source option
@@ -46,31 +39,25 @@ while getopts "hts:n:" opt; do
       ;;
   esac
 done
-
 # Shift off the processed options
 shift "$((OPTIND-1))"
-
-# Check if the source option was provided
-
 if [ -n "$source_option" ]; then
 echo "The source option was set to: $source_option"
-  DATE=$(date +"%F_%H-%M")
+DATE=$(date +"%F_%H-%M")
 LOG=$DATE.log
 THRESH2=$(( 2*$2 ))
-
 echo "**************************************************" >> $LOG
 echo "starting clustering script" >> $LOG
 date +"%F %T" >> $LOG
 START=$(date +"%s")
 echo "--------------------------------------------------" >> $LOG
 echo >> $LOG
-echo "	script name/version:				${0##*/}
+echo "	script name/version:				        ${0##*/}
 	path to script:						${0}
 	current directory:					$PWD
-	input pairwise distances file:		$1
-	lower distance threshold +1:	  	$2
-	upper distance threshold:			$THRESH2" >> $LOG
-	
+	input pairwise distances file:		                $1
+	lower distance threshold +1:	  	                $2
+	upper distance threshold:			        $THRESH2" >> $LOG	
 echo >> $LOG
 echo >> $LOG
 echo >> $LOG
@@ -81,10 +68,8 @@ echo "starting sort using a threshold of " $2 >> $LOG
 date +"%F %T">> $LOG
 echo "--------------------------------------------------" >> $LOG
 echo >> $LOG
-
 #processes a tab-separated file containing information about genomes and their distances. 
 #The portion reads the input file line by line and filters the distances according to a given threshold value. 
-
 while IFS=$'\t' read genome1 genome2 distance; do
     if [[ $distance -lt $THRESH2 ]] ; then
         echo -e "$genome1""\t""$genome2""\t""$distance" >> "$THRESH2"dist_less.tsv
@@ -92,7 +77,6 @@ while IFS=$'\t' read genome1 genome2 distance; do
         echo -e "$genome1""\t""$genome2""\t""$distance" >> "$THRESH2"dist_more.tsv
     fi
 done < "$1"
-
 while IFS=$'\t' read genome1 genome2 distance; do
     if [[ $distance -lt $2 ]] ; then
         echo -e "$genome1""\t""$genome2""\t""$distance" >> "$2"dist_less.tsv
@@ -100,7 +84,6 @@ while IFS=$'\t' read genome1 genome2 distance; do
         echo -e "$genome1""\t""$genome2""\t""$distance" >> "$2"dist_more.tsv
     fi
 done < "$THRESH2"dist_less.tsv
-
 #It creates two output files, one containing distances less than the threshold and another containing distances equal to or greater than the threshold.
 echo >> $LOG
 echo >> $LOG
@@ -112,11 +95,8 @@ echo "making cluster files from $2"dist_less.tsv >> $LOG
 date +"%F %T">> $LOG
 echo "--------------------------------------------------" >> $LOG
 echo >> $LOG
-
 #reading from the "distance less than second threshold" file created by the previous code- this code organizes genome pairs into separate files based on whether they are part of a "cluster" (CL), and creates a log file detailing the process.
-
 CLno=0  #counter for the number of clusters
-
 while IFS=$'\t' read genome1 genome2 distance; do
     if [[ $distance -lt $2 ]] ; then     #checks if distance is less than $2 (threshold)
         match="$(grep -l  -e $genome1 -e $genome2 CL*.tsv | head -n 1)"    #if less than, searches for existing cluster containing either genome1 or genome2 using grep
@@ -133,7 +113,6 @@ while IFS=$'\t' read genome1 genome2 distance; do
         echo -e "$genome1\t$genome2\t$distance" >> "$2"dist_more.tsv    #If the distance is equal to or greater than the threshold, the genome pair and distance are appended to the "$2"dist_more.tsv
     fi
 done < "$2"dist_less.tsv
-
 echo >> $LOG
 echo >> $LOG
 echo >> $LOG
@@ -150,7 +129,7 @@ for f in CL*.tsv; do
 	cut -d $'\t' -f 2 $f >> ids-"$f"
 	sort -u ids-"$f" >> ids-unq-"$f"
 done 
-# combine all ids-unq-* files into one tsv file 
+# combining ids-unq-* files into one tsv file 
 for f in ids-unq-CL*.tsv; do 
     sed "s/^/$f\t/" "$f" >> ids-unq-clusters-comb_a.tsv
 done
@@ -168,10 +147,8 @@ uniq -c -f1 ids-unq-clusters-comb-sort.tsv >> ids-unq-clusters-comb-sort-count.t
 #if any, search those ids in ids-unq-clusters-comb-sort.tsv, return the clusters that contain the duplicates
 awk '{if($1>=2) print $2, $3}' ids-unq-clusters-comb-sort-count.tsv >> ids-unq-clusters-comb-sort-dups.tsv #$2 $3 is the column number 
 
-#it stores column 2 (IDs) in dups file into an array 'end', then 'next' moves to sort file and prints all duplicate values in a new file all-dups.
-#NR- line number, FNR= gives total number of records for each input file 
+#stores column2 (IDs) in dups file into an array 'end', then 'next' moves to sort file and prints all duplicate values in a new file all-dups.
 awk 'NR==FNR {end[$2];next} ($2 in end)' ids-unq-clusters-comb-sort-dups.tsv ids-unq-clusters-comb-sort.tsv >> ids-unq-clusters_sort-dups-in_columns.tsv
-
 
 echo >> $LOG
 echo >> $LOG
@@ -183,20 +160,12 @@ echo "started merging cluster files based on ids-unq-clusters_in_rows.tsv" >> $L
 date +"%F %T">> $LOG
 echo "--------------------------------------------------" >> $LOG
 echo >> $LOG
-
-#FS  is any single character as input field separator; a is an array taking the value stored there 
-#each input line uses array "a" to store the first field ($1) of each line under the key of the second field ($2). FS=field separator
-#END indicates that this code block should be executed after all input has been processed; END does a loop to iterate over the keys of the array "a". 
 awk -v OFS="\t" '{a[$2]=a[$2] FS $1} END{for(i in a) print i a[i]}' ids-unq-clusters_sort-dups-in_columns.tsv >> ids-unq-clusters_in_rows.tsv
-
-#this is just to make a backup of original cluster files so they are not lost in the next steps of code.
+#Backup original CL*.tsv
 mkdir backup_original-clusters
 cp CL*.tsv ids-unq-clusters_in_rows.tsv backup_original-clusters/
 
-##this is deleting column1 (genomeID) in new file 
-awk 'BEGIN {OFS="\t"}; {print $2,$3}' ids-unq-clusters_in_rows.tsv | sort -k1 >> clusters_formatted_in_rows.tsv
-#steps to make merging easier 
-
+awk 'BEGIN {OFS="\t"}; {print $2,$3}' ids-unq-clusters_in_rows.tsv | sort -k1 >> clusters_formatted_in_rows.tsv #deletes genomeIDs in output file
 cp clusters_formatted_in_rows.tsv clusters_formatted_in_rows-backup.tsv
 echo >> $LOG
 echo >> $LOG
@@ -208,9 +177,7 @@ echo "started merging cluster* files based on common string in clusters_formatte
 date +"%F %T">> $LOG
 echo "--------------------------------------------------" >> $LOG
 echo >> $LOG
-
 #merging clusters in rows based on a common string/word in clusters_formatted_in_rows.tsv and simultaneously deleting rows in clusters_formatted_in_rows.tsv after merging.
-
 while [ "$(head -n 1 clusters_formatted_in_rows.tsv)" ]; do #expression or variable is not empty (it has a value) 
 	c1=$(head -n 1 clusters_formatted_in_rows.tsv | cut -d$'\t' -f1)
 	c2=$(head -n 1 clusters_formatted_in_rows.tsv | cut -d$'\t' -f2)
@@ -258,31 +225,22 @@ while [ "$(head -n 1 clusters_formatted_in_rows.tsv)" ]; do #expression or varia
 	cat clusters_formatted_in_rows.tsv  >> $LOG
 done
  
-
-#sorting the _merged cluster list files to keep only unique genomes
+#sorting "merged CL*.tsv" to keep only unique genomes
 mkdir backup_pre-merged-clusters/
 for f in CL*_to-merge.tsv; do 
 	sort -u "$f" >> ids-unq-"$f"
 	mv $f backup_pre-merged-clusters/
 done
-
-
-#this "for loop" gives a tab character before the first column (we don't need that); So adding "awk" statement
+#if getting a tab character in first row, then run awk command to remove it
 for file in ids-unq-CL*_to-merge.tsv
 do                           
    awk -v OFS="\t" '{for(i=1; i<=NF; i++) a[i]=a[i] OFS $i} END{for(i=1; i<=NF; i++) print a[i]}' "$file" | awk '{sub(/^\t/,""); print}' >> clusters_to-merge_rows.tsv
 	mv $file backup_pre-merged-clusters/
 done
-
-
 #based on ids-unq-clusters_in_rows.tsv- renaming cluster* to add .tsv as the extensions to be able to recognize the cluster files. 
-
 sed 's/\(CL[[:digit:]]*\)/\1.tsv/g' clusters_to-merge_rows.tsv >> clusters_to-merge_rows_ext.tsv
 #here "_added-ext" is adding .tsv extension after the cluster*
-
-
 #merging the cluster files based on ids-unq-clusters_in_rows_added-ext.tsv
-
 echo >> $LOG
 echo >> $LOG
 echo >> $LOG
@@ -293,10 +251,7 @@ echo "started merging cluster files based on clusters_to-merge_rows_ext.tsv" >> 
 date +"%F %T">> $LOG
 echo "--------------------------------------------------" >> $LOG
 echo >> $LOG
-
-
 #reading clusters_to-merge_rows_ext.tsv file line by line to merge only those CL*.tsv together that are listed on one row
-
 while IFS=$'\t' read -r line; do
         echo "line: "$line  >> $LOG
         outfile="$(echo $line | sed 's/.tsv[[:space:]]/_/g')"
@@ -312,46 +267,37 @@ while IFS=$'\t' read -r line; do
         	mv ids-unq-$file backup_pre-merged-clusters/
     	done
 done < clusters_to-merge_rows_ext.tsv
-
 #this command is moving files (based on filenmaes in clusters_formatted_in_rows-backup.tsv clusters_formatted_in_rows.tsv clusters_to-merge_rows_ext.tsv clusters_to-merge_rows.tsv into a directory- backup_pre-merged-clusters)
 mv clusters_formatted_in_rows-backup.tsv clusters_formatted_in_rows.tsv clusters_formatted_in_rows.tsv.bak clusters_to-merge_rows_ext.tsv clusters_to-merge_rows.tsv backup_pre-merged-clusters/
 mv ids-unq-clusters-comb.tsv ids-unq-clusters-comb-sort.tsv ids-unq-clusters-comb-sort-count.tsv ids-unq-clusters-comb-sort-dups.tsv ids-unq-clusters_in_rows.tsv ids-unq-clusters_sort-dups-in_columns.tsv backup_pre-merged-clusters/
-
 #for merged CL*.tsv files, keeping only unique genome IDs
-
 for f in CL*_CL*.tsv; do 
 	cut -d $'\t' -f 1 $f >> ids-"$f"
 	cut -d $'\t' -f 2 $f >> ids-"$f"
 	sort -u ids-"$f" >> ids-unq-"$f"
 done 
-
-# combine all ids-unq-* files into one tsv file 
+# combining all ids-unq-* files into one tsv file 
 for f in ids-unq-CL*.tsv; do 
     sed "s/^/$f\t/" "$f" >> ids-unq-clusters-comb_a.tsv
 done
-
 #replacing ids-unq- with nothing in ids-unq-clusters-comb_a.tsv; appending contents in ids-unq-clusters-comb_b.tsv; replacing .tsv in ids-unq-clusters-comb_b.tsv; appending contents in ids-unq-clusters-comb.tsv and deleting the intermediate a.tsv and b.tsv files
 sed "s/ids-unq-//" ids-unq-clusters-comb_a.tsv >> ids-unq-clusters-comb_b.tsv
 sed "s/.tsv//" ids-unq-clusters-comb_b.tsv >> ids-unq-clusters-comb.tsv
 rm ids-unq-clusters-comb_a.tsv
 rm ids-unq-clusters-comb_b.tsv
 
-#to test if still getting duplicate genome IDs
-#making backup folder and copying the CL*.tsv files into it. This can confirm if duplicates are being added from pairwise portion of code or it has always been added from the start of the code
-
+#backup directory to test presence of duplicate genome IDs
 mkdir backup-check-dups-CL
 cp CL*.tsv backup-check-dups-CL/
 cd backup-check-dups-CL
 
-
-#make a stats file to check for number of observations in these CL*.tsv files
+#stats file to check for number of observations in CL*.tsv
 for file in CL*.tsv; do
     count=$(wc -l < "$file")  >> $LOG
     echo "$file: $count observations"  >> stats-before-miss-pairs.tsv  #count is shell variable that stores no. of genomes found in each .tsv file 
 	echo "$file: $count observations"  >> $LOG
 done
 cd ../
-
 echo >> $LOG
 echo >> $LOG
 echo >> $LOG
@@ -363,17 +309,11 @@ date +"%F %T">> $LOG
 echo "--------------------------------------------------" >> $LOG
 echo >> $LOG
 
-#reading the cluster file into memory and store it in a separate array. We will then remove any duplicates and add the missing genome pairs.
-#This awk code reads the cluster file into memory (in form of hash table), stores it in the processed_pairs array, 
-#writes the non-duplicate lines to a temporary file. 
-#After processing the entire file, it replaces the original cluster file with the temporary one. 
-#This should help to remove duplicates and add the missing genome pairs.
-
+#reads CL* into memory (in form of hash table), stores it in the processed_pairs array, writes the non-duplicate lines to a temporary file. 
+#After processing the entire file, it replaces the original CL*.tsv with the temporary one. 
 start_time=$(date +%s)  #to check the run time for this portion of the awk code
-
 for c in CL*.tsv; do
   FILES=("${2}"dist_less.tsv "${2}"dist_more.tsv "${THRESH2}"dist_more.tsv)
-
   awk -v clust="$c" -v LOG="$LOG" -v f1="${FILES[0]}" -v f2="${FILES[1]}" -v f3="${FILES[2]}" '
   function load_contents(files) {    #load_contents function reads contents of input files and stores in hashtable (contents_hash) for easy and faster lookup
     for (file_idx in files) {
@@ -451,28 +391,22 @@ for c in CL*.tsv; do
   }' "$c"
 done
 
-
 end_time=$(date +%s)
 time_elapsed=$((end_time - start_time))
 echo "Time elapsed for awk script: $time_elapsed seconds" >> $LOG   #this calculates the run time for only awk code above 
 
-
-#to count number of genomes in CL*.tsv files to see if there has been any update in the number after doing finding missing pairwise comparisons step
+#counting genomes in CL*.tsv files after finding missing pairwise comparisons 
 for file in CL*.tsv; do
     count=$(wc -l < "$file")  >> $LOG
     echo "$file: $count observations"  >> stats-miss-pairs.tsv  #count is shell variable that stores no. of genomes found in each .tsv file 
 	echo "$file: $count observations"  >> $LOG
 done
-
 no_clusters=$(ls CL*.tsv | wc -l)
 echo "total number of clusters: " $no_clusters  >> $LOG
-
-
 for ids_unq_c in ids-unq-CL*.tsv; do
 	no_ids=$(wc -l $ids_unq_c)
 	echo -e $ids_unq_c"\t"$no_ids >> stats.tsv
-done
-	
+done	
 echo >> $LOG
 echo >> $LOG
 echo >> $LOG
@@ -504,20 +438,12 @@ cd clinical_clusters/
 genomes_and_sources="sources.tsv"
 genomes_in_clusters="ids-unq-clusters-comb.tsv"
 output_file="filtered_clusters_with_genomes.tsv"
-
-# Extract genomes from clinical sources
-grep "clinical" "$genomes_and_sources" | awk '{print $1}' > clinical_genomes.tsv
-
-# Sort the input files
-sort -k 1,1 clinical_genomes.tsv > sorted_clinical_genomes.tsv
-sort -k 2,2 "$genomes_in_clusters" > sorted_genomes_in_clusters.tsv
-
-# Combine clinical genomes and cluster information
+grep "clinical" "$genomes_and_sources" | awk '{print $1}' > clinical_genomes.tsv  #intermediate file
+sort -k 1,1 clinical_genomes.tsv > sorted_clinical_genomes.tsv #intermediate file
+sort -k 2,2 "$genomes_in_clusters" > sorted_genomes_in_clusters.tsv #intermediate file
 join -1 1 -2 2 -o 1.1,2.1 sorted_clinical_genomes.tsv sorted_genomes_in_clusters.tsv > clinical_genomes_in_clusters.tsv
 
 # Count genomes per cluster and filter clusters with at least minimum number of clinical genomes
 awk -v min="$min_number" 'BEGIN {OFS="\t"} {count[$2]++; genomes[$2] = genomes[$2] ? genomes[$2] OFS $1 : $1} END {for (cluster in count) if (count[cluster] >= min) print cluster ": " genomes[cluster]}' clinical_genomes_in_clusters.tsv > "$output_file"
-
-# Cleanup intermediate files
 rm clinical_genomes.tsv sorted_clinical_genomes.tsv sorted_genomes_in_clusters.tsv clinical_genomes_in_clusters.tsv
 fi
