@@ -26,18 +26,23 @@ To install the Clustrator, simply clone this repository to your local machine:
 # Utilities for command line on Mac
 [Homebrew](https://brew.sh/) can be used to install the GNU versions of core utilities for Mac
 
+# Compatibility
+Clustrator is compatible with the following operating systems:
+  - Ubuntu version 20.04.5 LTS (Focal Fossa)
+  - Red Hat Enterprise Linux version 8.4 (Ootpa) 
+
+Please note that while clustrator may work on other Linux distributions, we have only tested it on the above versions of Ubuntu and Red Hat. If you encounter any issues while using the tool on these or other operating systems, please let us know by opening an issue on GitHub.
 
 # Usage
 To use Clustrator, navigate to the directory containing the tool, and run the script with the desired flags:
-
 ```
 cd /path/to/directory
 bash clustrator.sh -s <source> -n <min number of -s> pairwise_distance.tsv <SNP> 
 ```
  
 The flags are as follows:
--s: source of the isolates. It can be anything based on the metadata file
--n: denotes minimum number of isolates of a particular source 
+-s: source of the isolates. Source can be anything based on your metadata file
+-n: denotes minimum number of isolates/samples of a given source 
 
 ## Acknowlegements
 Clustrator would not have been without
