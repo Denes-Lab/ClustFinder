@@ -51,8 +51,6 @@ Please note that while clustrator may work on other Linux distributions, we have
 ## Utilities for command line on Mac
 [Homebrew](https://brew.sh/) can be used to install the GNU versions of core utilities for Mac.
 
-# Acknowlegements
-Clustrator would not have been without
 
 # Contributing
 We welcome contributions! Please create a new branch for your feature or bugfix, then submit a pull request.
