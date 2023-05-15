@@ -1,6 +1,12 @@
 # Introduction
 Clustrator is a clustering tool in Bash. It can groups isolates into clusters based on the genomic distances derived from single nucleotide polymorphisms (SNPs), kmers, genes, or alleles. It's intended for use by public health professionals to conduct epidemiological surveillance and identify outbreaks effectively and researchers to retrospectively identify putative epidemiological clusters. It requires no prior knowledge of Bash scripting.
 
+## Citation
+
+If you use Clustrator, please cite (link to paper in JMM)
+
+Read more about Clustrator and how we used to cluster isolates based on Single Nucleotide Polymorphisms (SNPs): (Link to our publication)
+
 # Description
 - Clustrator requires two arguments: name of the input file and the distance threshold (t). 
   - The input is a tab-separated file containing pairwise comparisons with genetic distances, one per line. 
@@ -13,10 +19,6 @@ Clustrator is a clustering tool in Bash. It can groups isolates into clusters ba
 - The final output includes a tsv of the pairwise comparisons and distances for each cluster, a tsv that lists each genome and what cluster it was assigned to, and a statistics file.
 
 
-## Read more about Clustrator and how we used to cluster isolates based on Single Nucleotide Polymorphisms (SNP) here:
-(Link to our publication)
-
-If you use Clustrator, please cite (link to paper in JMM)
 
 # Installation
 To install the Clustrator, simply clone this repository to your local machine:
