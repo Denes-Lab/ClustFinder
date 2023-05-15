@@ -49,7 +49,7 @@ Clustrator is compatible with the following operating systems:
 Please note that while clustrator may work on other Linux distributions, we have only tested it on the above versions of Ubuntu and Red Hat. If you encounter any issues while using the tool on these or other operating systems, please let us know by opening an issue on GitHub.
 
 ## Utilities for command line on Mac
-[Homebrew](https://brew.sh/) can be used to install the GNU versions of core utilities for Mac
+[Homebrew](https://brew.sh/) can be used to install the GNU versions of core utilities for Mac.
 
 # Acknowlegements
 Clustrator would not have been without
