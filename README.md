@@ -13,7 +13,7 @@ Clustrator is a clustering tool in Bash. It can groups isolates into clusters ba
 - The final output includes a tsv of the pairwise comparisons and distances for each cluster, a tsv that lists each genome and what cluster it was assigned to, and a statistics file.
 
 
-## Read more about Clustrator and how we used to cluster isolates based on Single Nucleotide Polymorphisms (SNP) here :
+## Read more about Clustrator and how we used to cluster isolates based on Single Nucleotide Polymorphisms (SNP) here:
 (Link to our publication)
 
 # Installation
