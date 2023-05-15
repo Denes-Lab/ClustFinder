@@ -28,10 +28,14 @@ To use Clustrator, navigate to the directory containing the tool, and run the sc
 cd /path/to/directory
 bash clustrator.sh -s <source> -n <min number of -s> pairwise_distance.tsv <SNP> 
 ```
- 
 The flags are as follows:
 -s: source of the isolates. Source can be anything based on your metadata file
 -n: denotes minimum number of isolates/samples of a given source 
+If there is no need for a source, then the above command can be edited to: 
+``` 
+bash clustrator.sh pairwise_distance.tsv <SNP>  
+```
+
 
 # Compatibility
 Clustrator is compatible with the following operating systems:
