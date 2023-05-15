@@ -8,6 +8,8 @@ I: Before you start, make sure you have the following:
 2. Clustrator expects  pairwise comparisons with genetic distances- one per line
 	2.1 make sure the input pairwise distance file is a tab-separated file 
 	2.2 input pairwise distance file must have an empty line at the bottom
+	2.3 user-defined category file (like used in this example- source.tsv)should be in the same directory where you are running clustrator.sh. 
+	2.4 source.tsv can also be renamed as  or necessary renaming can be made in clustrator.sh 
 
 
 II: Running Clustrator
