@@ -1,8 +1,9 @@
 #!/bin/bash
-#Harleen K. Chaggar, Lauren K. Hudson, Thomas G. Denes
+#Harleen K. Chaggar, Lauren K. Hudson, Ryan Kuster, Margaret E. Staton, Katie N. Garman, John R. Dunn, and Thomas G. Denes
 
-#usage: bash script.sh -s <source> -n <min number of -s> pairwise_distance.tsv <SNP>   #source and min number provided
+#usage: bash script.sh -s <category> -n <min number of -s> pairwise_distance.tsv <SNP>   #user defined category -s and min number -n provided
 #usage: bash script.sh pairwise_distance.tsv <SNP>   #no flags 
+
 # Default values for flags
 source_option=""
 min_number=""
@@ -424,12 +425,13 @@ done
 if [ -n "$source_option" ]; then
 echo "The source option was set to: $source_option"
 echo "started filtering clusters based on source" >> $LOG
-		mkdir filtered_clusters/
+		
+mkdir filtered_clusters/
 cp ids-unq-clusters-comb.tsv filtered_clusters/
 mv sources.tsv filtered_clusters/ #can just move the sources.tsv file in the directory where this whole script will run. 
 cd filtered_clusters/
 
-genomes_and_sources="sources.tsv"
+genomes_and_sources="sources.tsv"   #script recognizes user defined category file as "source.tsv" but filename can be edited as per needs. This file should be tab separated and contains genome IDs in first column and metadata category in second column.
 genomes_in_clusters="ids-unq-clusters-comb.tsv"
 output_file="filtered_clusters_with_genomes.tsv"
 
