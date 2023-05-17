@@ -453,9 +453,7 @@ rm filtered_genomes.tsv sorted_filtered_genomes.tsv sorted_genomes_in_clusters.t
 
 else
 	echo "No source option was provided; no filtering will be done"
-
-
-
+fi
 
 echo >> $LOG
 echo >> $LOG
@@ -476,5 +474,3 @@ echo >> $LOG
 echo >> $LOG
 echo >> $LOG
 echo "**************************************************" >> $LOG
-
-fi
