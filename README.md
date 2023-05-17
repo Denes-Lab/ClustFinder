@@ -30,12 +30,12 @@ To install the Clustrator, simply clone this repository to your local machine:
 To use Clustrator, navigate to the directory containing the tool, and run the script with the desired flags:
 ```
 cd /path/to/directory
-bash clustrator.sh -s <source> -n <min number of -s> pairwise_distance.tsv <SNP> 
+bash clustrator.sh -s <category> -n <min number of -s> pairwise_distance.tsv <SNP> 
 ```
 The flags are as follows:
--s: source of the isolates. Source can be anything based on your metadata file
--n: denotes minimum number of isolates/samples of a given source 
-If there is no need for a source, then the above command can be edited to: 
+-s: user defined category of the isolates. It can be anything like- source, location, sampling time etc., based on your requirements
+-n: denotes minimum number of genomes of a given category
+If there is no need for a category, then the above command can be edited to: 
 ``` 
 bash clustrator.sh pairwise_distance.tsv <SNP>  
 ```
