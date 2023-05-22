@@ -31,7 +31,7 @@ git clone https://github.com/Denes-Lab/ClustFinder.git
 # Usage
 To use ClustFinder, navigate to the directory containing the input files, and run the script with the desired options:
 ```
-bash path/to/ClusterFinder/clustfinder.sh [-s <CATEGORY>] [-n <MIN-NUMBER-FROM-CATEGORY>] <INPUT-PAIRWISE-FILE.tsv> <DISTANCE-THRESHOLD> 
+bash PATH/TO/ClusterFinder/clustfinder.sh [-s <CATEGORY>] [-n <MIN-NUMBER-FROM-CATEGORY>] <INPUT-PAIRWISE-FILE.tsv> <DISTANCE-THRESHOLD> 
 ```
 
 **Required:**
@@ -48,7 +48,7 @@ bash path/to/ClusterFinder/clustfinder.sh [-s <CATEGORY>] [-n <MIN-NUMBER-FROM-C
 
 If there is no need to filter clusters based on a category or minimum number of isolates, the basic command, without the optional arguments can be used: 
 ``` 
-bash path/to/ClusterFinder/clustfinder.sh <INPUT-PAIRWISE-FILE.tsv> <DISTANCE-THRESHOLD>  
+bash PATH/TO/ClusterFinder/clustfinder.sh <INPUT-PAIRWISE-FILE.tsv> <DISTANCE-THRESHOLD>  
 ```
 
 
