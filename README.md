@@ -24,7 +24,8 @@ Read more about ClustFinder and how we used to cluster isolates based on Single 
 # Installation
 To install the ClustFinder, simply clone this repository to your local machine:
 
-``` git clone (link)
+```
+git clone https://github.com/Denes-Lab/ClustFinder.git
 ```
 
 # Usage
