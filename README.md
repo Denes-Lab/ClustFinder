@@ -24,30 +24,32 @@ Read more about ClustFinder and how we used to cluster isolates based on Single 
 # Installation
 To install the ClustFinder, simply clone this repository to your local machine:
 
-```
+```bash
 git clone https://github.com/Denes-Lab/ClustFinder.git
 ```
 
 # Usage
 To use ClustFinder, navigate to the directory containing the input files, and run the script with the desired options:
-```
+```bash
 bash PATH/TO/ClusterFinder/clustfinder.sh [-s <CATEGORY>] [-n <MIN-NUMBER-FROM-CATEGORY>] <INPUT-PAIRWISE-FILE.tsv> <DISTANCE-THRESHOLD> 
 ```
 
-**Required:**
-<INPUT-PAIRWISE-FILE.tsv>	input TSV file containing the pairwise comparisons with genetic distances
-				- one pairwise comparison per line
-				- contains 3 columns: first isolate ID, second isolate ID, and distance
-				- should not have a header row
-				- must have an empty line at the bottom
-<DISTANCE-THRESHOLD>             distance threshold used for clustering; pairwise distances of ≤DISTANCE-THRESHOLD will used for clustering
-**Optional:**
--s <CATEGORY>                    name of category used for filtering clusters
--n <MIN-NUMBER-FROM-CATEGORY>    the minimum number of isolates that must belong to the category specifed by the -s option
+```
+REQUIRED:  
+  <INPUT-PAIRWISE-FILE.tsv>	input TSV file containing the pairwise comparisons with genetic distances  
+				- one pairwise comparison per line  
+				- contains 3 columns: first isolate ID, second isolate ID, and distance  
+				- should not have a header row  
+				- must have an empty line at the bottom  
+  <DISTANCE-THRESHOLD>		distance threshold used for clustering; pairwise distances of ≤DISTANCE-THRESHOLD will used for clustering  
 
+OPTIONAL:  
+  -s <CATEGORY>			name of category used for filtering clusters  
+  -n <MIN-NUMBER-FROM-CATEGORY>	the minimum number of isolates that must belong to the category specifed by the -s option  
+```
 
 If there is no need to filter clusters based on a category or minimum number of isolates, the basic command, without the optional arguments can be used: 
-``` 
+```bash 
 bash PATH/TO/ClusterFinder/clustfinder.sh <INPUT-PAIRWISE-FILE.tsv> <DISTANCE-THRESHOLD>  
 ```
 
