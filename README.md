@@ -68,4 +68,4 @@ We welcome contributions! Please create a new branch for your feature or bugfix,
 
 
 # License
-This is licensed under MIT License- see the LICENSE.md file (https://github.com/Denes-Lab/GenomeCluster/blob/main/LICENSE.md) for details. 
+This is licensed under MIT License. See [LICENSE.md](https://github.com/Denes-Lab/ClustFinder/blob/main/LICENSE.md) for details. 
