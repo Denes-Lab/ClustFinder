@@ -75,6 +75,17 @@ date +"%F %T">> $LOG
 echo "--------------------------------------------------" >> $LOG
 echo >> $LOG
 
+
+#add tests:
+#test that input file exists
+#test that input is tsv
+#test that input has at least 2 lines
+#test that input has numbers in the third column
+#test that input has blank line at the bottom; if not, add that line
+#test that threshold is a number
+
+
+
 #reading input pairwise distance file and filters the distances as per specific SNP threshold
 while IFS=$'\t' read genome1 genome2 distance; do
     if [[ $distance -le $THRESH ]] ; then
