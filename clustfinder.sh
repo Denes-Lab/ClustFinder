@@ -88,7 +88,9 @@ echo >> $LOG
 
 #reading input pairwise distance file and filters the distances as per specific SNP threshold
 while IFS=$'\t' read genome1 genome2 distance; do
-    if [[ $distance -le $THRESH ]] ; then
+    if [[ $genome1 == $genome2 ]] ; then
+    	echo -e "$genome1""\t""$genome2""\t""$distance" >> self-dist.tsv
+    elif [[ $distance -le $THRESH ]] ; then
         echo -e "$genome1""\t""$genome2""\t""$distance" >> "$THRESH"dist_less.tsv
     elif [[ $distance -gt $THRESH2 ]] ; then
     	echo -e "$genome1""\t""$genome2""\t""$distance" >> "$THRESH2"dist_more.tsv
