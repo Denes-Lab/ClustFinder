@@ -77,12 +77,72 @@ echo >> $LOG
 
 
 #add tests:
-#test that input file exists
-#test that input is tsv
-#test that input has at least 2 lines
+
+FILENAME="pairwise_distance.tsv"
+
+# Check if the file exists and has a .tsv extension
+if [ -f "$FILENAME" ]; then
+    EXTENSION="${FILENAME##*.}"
+    if [ "$EXTENSION" == "tsv" ]; then
+        echo "File $FILENAME exists and is a .tsv file."
+    else
+        echo "File $FILENAME exists but is not a .tsv file. Please re-check your file"
+    fi
+else
+    echo "File $FILENAME does not exist."
+fi
+
+#test that input has at least 2 lines 
+# Get number of lines in the file
+num_lines=$(wc -l < "$FILENAME")
+
+# Check if the file has at least 2 lines
+if [ "$num_lines" -lt 2 ]; then
+    echo "Error: Input file must have at least 2 lines"
+    exit 1
+else
+    echo "Input file has at least 2 lines. Moving forward..."
+fi
+
 #test that input has numbers in the third column
+if awk -F'\t' 'BEGIN{exitcode=1} {if ($3 + 0 == $3) exitcode=0; exit} END{exit exitcode}' "$FILENAME" > /dev/null; then   #if value is numeric, adding 0 will not change the value, so $3 + 0 == $3 will be true. If the value is not numeric, adding 0 will change it to 0, so the comparison will be false.
+    echo "Third column contains numbers."
+else
+    echo "Error: Third column does not contain any numbers."
+    exit 1
+fi
+
 #test that input has blank line at the bottom; if not, add that line
+if [ "$(tail -c 1 "$FILENAME")" != "" ]
+then
+    # If not, add an empty line
+    echo "" >> "$FILENAME"
+    echo "Added an empty line at the end of $FILENAME."
+else
+    echo "File $FILENAME already ends with an empty line. Moving forward..."
+fi
+
+
 #test that threshold is a number
+# Test if THRESH is a number
+if ! [[ $THRESH =~ ^[0-9]+$ ]]; then
+    echo "Error: THRESH is not a number"
+    exit 1
+else
+    echo "THRESH is a number. Moving forward..."
+fi
+
+# Test if THRESH2 is a number
+if ! [[ $THRESH2 =~ ^[0-9]+$ ]]; then
+    echo "Error: THRESH2 is not a number"
+    exit 1
+else
+    echo "THRESH2 is a number. Moving forward..."
+fi
+
+
+
+
 
 
 
