@@ -78,7 +78,7 @@ echo >> $LOG
 
 #add tests:
 
-FILENAME= $1 
+FILENAME=$1 
 
 # Check if the file exists and has a .tsv extension
 if [ -f "$FILENAME" ]; then
