@@ -78,7 +78,7 @@ echo >> $LOG
 
 #add tests:
 
-FILENAME="pairwise_distance.tsv"
+FILENAME="pairwise_distance.tsv"  #re-name as per your filename
 
 # Check if the file exists and has a .tsv extension
 if [ -f "$FILENAME" ]; then
