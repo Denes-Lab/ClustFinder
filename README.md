@@ -6,8 +6,8 @@ ClustFinder is a clustering tool in Bash designed to automate clustering of geno
 If you use ClustFinder, please cite our paper: 
 ClustFinder: A tool for threshold-delineated clustering of microbial isolates by pairwise genomic distance 
 ``` 
-[(https://www.sciencedirect.com/science/article/pii/S0167701223001227)]
-[(https://doi.org/10.1016/j.mimet.2023.106788)]
+[https://www.sciencedirect.com/science/article/pii/S0167701223001227](url)
+
 ```
 Read more about ClustFinder and how we used to cluster isolates based on Single Nucleotide Polymorphisms (SNPs): (Link to our publication)
 
