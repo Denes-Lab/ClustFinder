@@ -3,8 +3,8 @@ ClustFinder is a clustering tool in Bash designed to automate clustering of geno
 
 ## Citation
 
-If you use ClustFinder, please cite (link to paper in JMM)
-
+If you use ClustFinder, please cite 
+``` https://doi.org/10.1016/j.mimet.2023.106788 ```
 Read more about ClustFinder and how we used to cluster isolates based on Single Nucleotide Polymorphisms (SNPs): (Link to our publication)
 
 # Description
